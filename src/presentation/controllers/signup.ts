@@ -1,3 +1,5 @@
+import {HttpResponse, httpRequest} from '../protocols/http'
+
 export class SignupController {
     handle(httpRequest: any): any {
 
