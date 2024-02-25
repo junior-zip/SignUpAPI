@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1708873416709" clover="3.2.0">
-  <project timestamp="1708873416709" name="All files">
+<coverage generated="1708873639217" clover="3.2.0">
+  <project timestamp="1708873639217" name="All files">
     <metrics statements="26" coveredstatements="21" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1" elements="33" coveredelements="27" complexity="0" loc="26" ncloc="26" packages="1" files="1" classes="1"/>
     <file name="signup.ts" path="C:\Users\junio\OneDrive\node\nodejs manguinho\src\presentation\controllers\signup.ts">
       <metrics statements="26" coveredstatements="21" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
