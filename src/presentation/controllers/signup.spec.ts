@@ -16,15 +16,6 @@ const makeEmailValidator = (): EmailValidator => {
     return new EmailValidatorStub()
 }
 
-const makeEmailValidatorWithError = (): EmailValidator => {
-    class EmailValidatorStub implements EmailValidator{
-        isValid(email: string): boolean{
-            throw new Error()
-        }
-    }
-    return new EmailValidatorStub()
-}
-
 const makeSut = (): SutTypes => {
 
     const emailValidatorStub = makeEmailValidator()
@@ -118,23 +109,6 @@ describe('Signup Controller', () => {
         expect(httpResponse.body).toEqual(new InvalidParamError('email'))
     })
 
-    test('Should return 500 if EmailValidator throws', () =>{
-
-        const emailValidatorStub = makeEmailValidatorWithError()
-        const sut =  new SignupController(emailValidatorStub)
-        const httpRequest = {
-            body: {
-                name: 'any_name',
-                email: 'any_email@email.com,',
-                password: 'any_password',
-                passwordConfirmation: 'any_password'
-            }
-        }
-        const httpResponse = sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(500)
-        expect(httpResponse.body).toEqual(new ServerError())
-    })
-
     test('Should call Emailvalidator with correct email', () =>{
 
         const {sut, emailValidatorStub} = makeSut()
@@ -152,4 +126,25 @@ describe('Signup Controller', () => {
         expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com')
         
     })
+
+    test('Should return 500 if EmailValidator throws', () =>{
+
+        const {sut, emailValidatorStub} =  makeSut()
+        jest.spyOn(emailValidatorStub, 'isValid').mockImplementation(() =>{
+            throw new Error()
+        })
+        const httpRequest = { 
+            body: {
+                name: 'any_name',
+                email: 'any_email@email.com,',
+                password: 'any_password',
+                passwordConfirmation: 'any_password'
+            }
+        }
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(500)
+        expect(httpResponse.body).toEqual(new ServerError())
+    })
+
+    
 })
